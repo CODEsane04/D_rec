@@ -63,16 +63,30 @@ async def predict(data: InputData):
 
         # Step B: Image Loading
         image = Image.open(io.BytesIO(image_bytes))
+        
+        # DEBUG: Save original received image
+        image.save("debug_original.png")
 
+        # Handle Transparency: Create a white background and paste the image on top
+        if image.mode == 'RGBA':
+            background = Image.new('RGBA', image.size, (255, 255, 255, 255))
+            image = Image.alpha_composite(background, image)
+        
         # Step C: Grayscale
         image = image.convert("L")
 
         # Step D: Inversion (CRITICAL)
         # User draws black on white, model expects white on black
         image = ImageOps.invert(image)
+        
+        # DEBUG: Save inverted image
+        image.save("debug_inverted.png")
 
         # Step E: Resize
         image = image.resize((28, 28), resample=Image.Resampling.LANCZOS)
+        
+        # DEBUG: Save resized image
+        image.save("debug_resized.png")
 
         # Step F: Normalization
         image_array = np.array(image).astype(np.float32)
