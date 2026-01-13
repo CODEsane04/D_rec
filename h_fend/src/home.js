@@ -16,7 +16,7 @@ const Home = () => {
         const imageData = canvasref.current.getDataURL();
 
         try {
-            const response = await fetch('http://localhost:3000/predict', {
+            const response = await fetch('http://127.0.0.1:8000/predict', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const Home = () => {
                         gridColor="#797777ff"     // 👈 light grid
                         gridSize={10}
 
-                        brushRadius={4}
+                        brushRadius={8}
                         lazyRadius={0}
 
                     />
